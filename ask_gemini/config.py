@@ -25,27 +25,40 @@ class GeminiCookies:
     PSIDTS: str = _get("GEMINI_PSIDTS")
 
     @classmethod
-    def try_load_from_browser(cls) -> bool:
-        """Auto-detect cookies from Chrome/Edge/Firefox on macOS."""
-        try:
-            cj = browser_cookie3.chrome(domain_name=".google.com")
-        except Exception:
-            cj = None
+    def _apply_cookiejar(cls, cj) -> bool:
+        psid = psidts = ""
+        for c in cj:
+            if c.name == "__Secure-1PSID":
+                psid = c.value
+            elif c.name == "__Secure-1PSIDTS":
+                psidts = c.value
+        if psid and psidts:
+            cls.PSID = psid
+            cls.PSIDTS = psidts
+            logger.debug("Loaded cookies from browser")
+            return True
+        return False
 
-        if cj:
-            psid = psidts = ""
-            for c in cj:
-                if c.name == "__Secure-1PSID":
-                    psid = c.value
-                elif c.name == "__Secure-1PSIDTS":
-                    psidts = c.value
-            if psid and psidts:
-                cls.PSID = psid
-                cls.PSIDTS = psidts
-                logger.debug("Loaded cookies from browser")
+    @classmethod
+    def try_load_from_browser(cls) -> bool:
+        """Auto-detect cookies from Chrome, Chromium, Edge, Brave, or Firefox."""
+        loaders = []
+        for name in ("chrome", "chromium", "brave", "edge", "firefox"):
+            loader = getattr(browser_cookie3, name, None)
+            if loader is not None:
+                loaders.append(loader)
+        load = getattr(browser_cookie3, "load", None)
+        if load is not None:
+            loaders.append(load)
+
+        for loader in loaders:
+            try:
+                cj = loader(domain_name=".google.com")
+            except Exception:
+                continue
+            if cj and cls._apply_cookiejar(cj):
                 return True
 
-        # Fallback to .env
         return cls.is_configured()
 
     @classmethod

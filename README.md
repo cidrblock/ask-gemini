@@ -67,6 +67,8 @@ Follow the instructions to copy `__Secure-1PSID` and `__Secure-1PSIDTS` from you
 
 ## Usage
 
+`ag` is a short alias for `ask-gemini`. Running `ag` with no arguments starts a fresh chat (`--chat --new-chat`).
+
 ### Single question
 
 ```bash
@@ -84,13 +86,15 @@ ask-gemini --chat
 ```
 
 This automatically picks up where you left off on [gemini.google.com](https://gemini.google.com).
-Type your message, and Gemini responds. Useful commands while in chat:
+On a TTY, chat mode keeps the follow-up field in the transcript (not pinned to the bottom of the window). While Gemini runs, a spinner sits *between* the last prompt and the follow-up field. Replies insert above the follow-up field. User prompts and the live follow-up are grey bars with a one-column side margin.
+
+Useful commands while in chat:
 
 | Command | Action |
 |---|---|
-| `exit` / `quit` | Leave chat mode |
-| `new` | Start a fresh conversation |
-| `clear` | Same as `new` |
+| `/quit` / `quit` / `exit` | Leave chat mode |
+| `/new` / `new` | Start a fresh conversation |
+| `/clear` / `clear` | Same as `/new` |
 
 To always start a fresh conversation instead of resuming:
 

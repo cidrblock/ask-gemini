@@ -275,7 +275,7 @@ def test_chat_mode_stdin():
     # The "exit" line may be consumed before Gemini responds, so we
     # check for either a response containing our input or a clean exit.
     has_response = "test user" in result.stdout.lower()
-    clean_exit = result.returncode == 0 and "you>" in result.stdout.lower()
+    clean_exit = result.returncode == 0 and "ask-gemini" in result.stdout.lower()
     assert has_response or clean_exit, (
         f"Chat mode did not handle stdin correctly. Output: {result.stdout}"
     )

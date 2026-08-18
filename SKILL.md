@@ -7,6 +7,7 @@ CLI tool to call Gemini's web interface from the command line. Uses browser cook
 ```bash
 # Single question (stateless)
 ask-gemini "your prompt here"
+# `ag` is a short alias; bare `ag` starts a fresh chat (`--chat --new-chat`)
 
 # With specific model
 ask-gemini -m gemini-3-flash "your prompt"
@@ -72,7 +73,7 @@ printf "Question 1\nQuestion 2\nexit\n" | ask-gemini --chat -m gemini-3-flash
 ask-gemini --chat --new-chat <<< "New topic"
 ```
 
-In-chat commands: `exit`/`quit` to leave, `new`/`clear` to start over.
+In-chat commands: `/quit` (or `quit`/`exit`) to leave, `/new` or `/clear` to start over.
 
 ### Isolated multi-agent sessions
 

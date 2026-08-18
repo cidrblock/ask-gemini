@@ -14,6 +14,8 @@ dependencies = [
     "python-dotenv>=1.0.0",
     "loguru>=0.7.0",
     "click>=8.0.0",
+    "rich>=13.0.0",
+    "prompt-toolkit>=3.0.0",
 ]
 
 [project.optional-dependencies]
@@ -21,6 +23,7 @@ test = ["pytest>=7.0.0"]
 
 [project.scripts]
 ask-gemini = "ask_gemini.main:main"
+ag = "ask_gemini.main:main"
 
 [tool.pytest.ini_options]
 markers = [
